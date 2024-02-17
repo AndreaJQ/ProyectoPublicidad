@@ -6,4 +6,12 @@ public enum Role {
     CLIENT;
 
 
+    public enum TipoDeTarea {
+        Pendiente,
+        EnEjecucion,
+        terminada;
+
+
+
+    }
 }
