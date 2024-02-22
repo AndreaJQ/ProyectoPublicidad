@@ -4,6 +4,4 @@ public enum Role {
     USERAGENT,
     ADMIN,
     CLIENT;
-
-
 }
