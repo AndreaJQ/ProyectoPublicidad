@@ -5,13 +5,5 @@ public enum Role {
     ADMIN,
     CLIENT;
 
-
-    public enum TipoDeTarea {
-        Pendiente,
-        EnEjecucion,
-        terminada;
-
-
-
-    }
 }
+
