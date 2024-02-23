@@ -41,6 +41,8 @@ public class Proyecto {
     @Basic(optional = true)
     private Archivo archivo;
 
+    @Enumerated(EnumType.STRING)
+    private AccessType visibilidad;
     public void addUsuario(UserEntity usuario) {
         this.usuarios.add(usuario);
     }
