@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Table(name = "usuarios")
+@Table(name = "proyecto")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +38,7 @@ public class Proyecto {
     private ProjectStatus estado;
 
     private Boolean AltaBaja;
+    @OneToOne
     @Basic(optional = true)
     private Archivo archivo;
 
