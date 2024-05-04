@@ -22,7 +22,7 @@ public class Tarea {
     @ManyToOne
     private Proyecto proyecto;
     @ManyToMany
-    private List<UserEntity> agente;
+    private UserEntity agente;
     private Boolean baja;
 
 
