@@ -1,9 +1,5 @@
 package PublicityProject.PROYECTOPUBLICIDAD.enumeration;
 
-public enum Role {
-    USERAGENT,
-    ADMIN,
-    CLIENT;
-
+public enum AccessType {
+    PRIVATE, PUBLIC, GROUP
 }
-
