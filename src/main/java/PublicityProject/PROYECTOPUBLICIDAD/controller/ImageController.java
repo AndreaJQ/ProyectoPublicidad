@@ -1,19 +1,21 @@
-package PublicityProject.PROYECTOPUBLICIDAD.service.impl;
+package PublicityProject.PROYECTOPUBLICIDAD.controller;
 
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Image;
 
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
+import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
-@RestController
-@RequestMapping("/images")
+
+@Controller
+@RequestMapping("/image")
 public class ImageController {
 
     @Autowired

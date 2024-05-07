@@ -21,7 +21,7 @@ public class Tarea {
     private estadoTarea estadoTarea;
     @ManyToOne
     private Proyecto proyecto;
-    @ManyToMany
+    @ManyToOne
     private UserEntity agente;
     private Boolean baja;
 
