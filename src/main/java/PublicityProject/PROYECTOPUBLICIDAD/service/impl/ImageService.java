@@ -22,7 +22,7 @@ public class ImageService {
         if (archivo != null) {
             try {
                 Image imagen = new Image();
-                imagen.setMime(archivo.getContentType());
+                imagen.setTipo(archivo.getContentType());
                 imagen.setNombre(archivo.getName());
                 imagen.setContenido(archivo.getBytes());
                 return imagenRepositorio.save(imagen);
@@ -44,7 +44,7 @@ public class ImageService {
             Optional<Image> response = imagenRepositorio.findById(id);
             if (response.isPresent()) {
                 Image image = response.get();
-                image.setMime(archivo.getContentType());
+                image.setTipo(archivo.getContentType());
                 image.setNombre(archivo.getName());
                 image.setContenido(archivo.getBytes());
                 return imagenRepositorio.save(image);

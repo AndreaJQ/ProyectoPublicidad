@@ -16,5 +16,5 @@ public class Archivo {
     private String tipo;
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    private byte[] contenido;
+    private String contenido;
 }

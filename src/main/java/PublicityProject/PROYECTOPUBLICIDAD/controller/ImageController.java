@@ -36,7 +36,7 @@ public class ImageController {
         Image image = imageService.getImageById(id);
         if (image != null) {
             return ResponseEntity.ok()
-                    .header("Content-Type", image.getMime())
+                    .header("Content-Type", image.getTipo())
                     .body(image.getContenido());
         } else {
             throw new MyException("La imagen con el ID proporcionado no existe.");
