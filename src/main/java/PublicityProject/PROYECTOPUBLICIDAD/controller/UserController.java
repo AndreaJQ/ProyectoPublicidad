@@ -2,6 +2,7 @@ package PublicityProject.PROYECTOPUBLICIDAD.controller;
 
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ public class UserController {
     public String listUser (ModelMap model){
         List<UserEntity> user = userService.list();
         model.addAttribute("user", user);
-        return "listUsers";
+        return "users-list";
     }
 
 
@@ -36,5 +37,13 @@ public class UserController {
             model.addAttribute("error", "No se puede eliminar el Usuario porque se encuentra vinculado a una publicación o comentario");
             return "error-deleteUser";
         }
+    }
+    @GetMapping("/perfil")
+    public String profile(ModelMap modelo, HttpSession session){
+        UserEntity user = (UserEntity) session.getAttribute("usuariosession");
+        modelo.put("user", user);
+
+
+        return "perfil_user.html";
     }
 }

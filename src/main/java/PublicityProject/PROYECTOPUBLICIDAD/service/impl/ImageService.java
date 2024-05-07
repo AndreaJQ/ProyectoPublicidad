@@ -5,10 +5,12 @@ import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.ImageRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -73,5 +75,24 @@ public class ImageService {
         }
     }
 
+
+
+    public Image getDefaultImage() {
+        try {
+            ClassPathResource defaultImageResource = new ClassPathResource("static/img/avatar.png");
+            byte[] imageBytes = Files.readAllBytes(defaultImageResource.getFile().toPath());
+
+            Image defaultImage = new Image();
+            defaultImage.setMime("image/png");
+            defaultImage.setNombre("avatar.png");
+            defaultImage.setContenido(imageBytes);
+
+            return imagenRepositorio.save(defaultImage);
+        } catch (IOException e) {
+
+            System.err.println("Error al cargar la imagen por defecto: " + e.getMessage());
+            return null;
+        }
+    }
 
 }

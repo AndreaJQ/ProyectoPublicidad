@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="_head">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/img/isotipo.ico">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <title>ServiceMARKET - Tu app de servicios confiables</title>
+</head>
+
+
+<body>
+<header th:replace="fragments/layout :: _header"></header>
+
+<main>
+  <div class="jumbot">
+    <h1><strong>Contrata solo personal de confianza</strong> </h1>
+    <h2><a th:href="@{/publist}">Visualiza los proyectos.</a></h2>
+    <style>
+  /* Estilos para los enlaces */
+  a {
+    color: #0056b3; /* Cambia el color a lo que desees */
+    text-decoration: none; /* Elimina el subrayado */
+    transition: color 0.3s; /* Transición suave para el cambio de color */
+  }
+
+  /* Estilos para los enlaces al pasar el mouse por encima */
+  a:hover {
+    color: #0056b3; /* Cambia el color a lo que desees */
+    text-decoration: underline; /* Agrega un subrayado al pasar el mouse por encima */
+  }
+</style>
+  </div>
+
+
+
+
+
+
+
+</main>
+
+<footer th:replace="fragments/layout :: _footer"></footer>
+<div th:replace="fragments/layout :: _script"></div>
+</body>
+
+</html>

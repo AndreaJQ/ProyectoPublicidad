@@ -2,6 +2,7 @@ package PublicityProject.PROYECTOPUBLICIDAD.service.impl;
 
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Image;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
+import PublicityProject.PROYECTOPUBLICIDAD.enumeration.Role;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,18 +21,20 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ImageService imageService;
 
 //--------------------CREATE--------------------------
     @Transactional
-    public void create (UserEntity us, String password, String password2, MultipartFile archivo){
+    public void create (UserEntity us, String password, String password2, MultipartFile archivo) throws MyException, IOException {
         //validate(us,password,password2,archivo);
         Image image;
         if (archivo != null && !archivo.isEmpty()) {
-            //image = imageService.guardar(archivo);
+            image = imageService.createImagen(archivo);
         } else {
-            //image = imageService.getDefaultImage();
+            image = imageService.getDefaultImage();
         }
-       // us.setImage(image);
+        us.setImage(image);
         us.setPassword(new BCryptPasswordEncoder().encode(password));
         userRepository.save(us);
     }
@@ -44,7 +48,12 @@ public class UserService {
         user = userRepository.findAll();
         return user;
     }
+    //---------------------GET USER BY ID-----------------
+    public UserEntity getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 
+    //---------------------UPDATE USER-----------------
 
     public UserEntity updateUser(Long id, String name, String lastName, String contact, String address, MultipartFile archivo) throws Exception {
         UserEntity user = new UserEntity();
@@ -57,20 +66,20 @@ public class UserService {
             user.setAddress(address);
             user.setStatus(true);
 
-            Long idImage = null;
+            String idImage = null;
 
-            /*if (user.getImage() != null) {
+            if (user.getImage() != null) {
                 idImage = user.getImage().getId();
             }
             Image image;
             if (archivo != null && !archivo.isEmpty()) {
-                image = imageService.actualizar(archivo,idImage);
+                image = imageService.UpdateImage(archivo,idImage);
             } else {
                 image = imageService.getDefaultImage();
             }
 
 
-            user.setImage(image);*/
+            user.setImage(image);
 
             userRepository.save(user);
         }
@@ -124,4 +133,34 @@ public class UserService {
         }
     }*/
 
+
+    @Transactional
+    public void changeRole(Long id) {
+        Optional<UserEntity> answer = userRepository.findById(id);
+        if (answer.isPresent()) {
+            UserEntity user = answer.get();
+
+            if (user.getRole().equals(Role.USERAGENT)) {
+                user.setRole(Role.ADMIN);
+            } else if (user.getRole().equals(Role.ADMIN)) {
+                user.setRole(Role.CLIENT);
+            } else if (user.getRole().equals(Role.CLIENT)) {
+                user.setRole(Role.USERAGENT);
+            }
+
+        }
+    }
+    @Transactional
+    public void changeUserStatus(Long id) {
+        Optional<UserEntity> answer = userRepository.findById(id);
+        if (answer.isPresent()) {
+            UserEntity user = answer.get();
+
+            if (user.isStatus()) {
+                user.setStatus(false);
+            } else if (!user.isStatus()) {
+                user.setStatus(true);
+            }
+        }
+    }
 }
