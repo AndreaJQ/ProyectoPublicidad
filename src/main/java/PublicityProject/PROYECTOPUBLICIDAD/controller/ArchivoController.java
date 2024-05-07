@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 
-@RestController
+@Controller
 @RequestMapping("/archivo")
 public class ArchivoController {
     @Autowired
