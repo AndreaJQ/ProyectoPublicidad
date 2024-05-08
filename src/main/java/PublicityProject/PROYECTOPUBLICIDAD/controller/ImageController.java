@@ -1,8 +1,9 @@
-package PublicityProject.PROYECTOPUBLICIDAD.service.impl;
+package PublicityProject.PROYECTOPUBLICIDAD.controller;
 
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Image;
 
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
+import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
