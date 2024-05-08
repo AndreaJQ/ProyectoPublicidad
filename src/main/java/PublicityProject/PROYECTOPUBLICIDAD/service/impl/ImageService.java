@@ -83,7 +83,7 @@ public class ImageService {
             byte[] imageBytes = Files.readAllBytes(defaultImageResource.getFile().toPath());
 
             Image defaultImage = new Image();
-            defaultImage.setMime("image/png");
+            defaultImage.setTipo("image/png");
             defaultImage.setNombre("avatar.png");
             defaultImage.setContenido(imageBytes);
 
