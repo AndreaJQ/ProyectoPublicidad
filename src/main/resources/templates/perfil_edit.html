@@ -17,7 +17,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <img th:if="${session.usuariosession.image != null}" th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="perfil" width="250" class="rounded-circle">
+                        <img th:if="${session.usuariosession.image != null}" th:src="@{/image/carga/__${session.usuariosession.id}__}" alt="perfil" width="250" class="rounded-circle">
                     </div>
                     <div class="col-md-9">
                             <form class="form" th:action="@{/user/edituser/__${session.usuariosession.id}__}"  method="POST" th:object="${userEntity}" enctype="multipart/form-data" >
@@ -37,10 +37,10 @@
 
 
 
-                                <label class="form-label" for="role" sec:authorize="hasAnyRole('ROLE_PROVIDER''ROLE_USER')">Seleccione su perfil:</label>
+                                <label class="form-label" for="role" sec:authorize="hasAnyRole('ROLE_USERAGENT''ROLE_CLIENT')">Seleccione su perfil:</label>
                                 <select class="form-control mb-4" id="role" th:value="${session.usuariosession.role}" >
-                                    <option th:value="USER" th:text="Usuario"></option>
-                                    <option th:value="PROVIDER" th:text="Proovedor"></option>
+                                    <option th:value="USERAGENT" th:text="AGENTE"></option>
+                                    <option th:value="CLIENT" th:text="CLIENTE"></option>
                                 </select>
                                 <label for="archivo" class="form-label">Foto de perfil</label>
                                 <label class="form-label" for="archivo">Imagen:</label>

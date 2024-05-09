@@ -12,20 +12,19 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <!--<img th:if="${session.usuariosession.image != null}"
-                     th:src="@{/imagen/perfil/__${session.usuariosession.id}__}"
+                <img th:if="${session.usuariosession.image != null}"
+                     th:src="@{/image/carga/__${session.usuariosession.id}__}"
                      alt="perfil" width="250" class="rounded-circle">
                 <img th:unless="${session.usuariosession.image != null}" th:src="@{/imagen/pordefecto}" alt="perfil"
-                     width="250" class="rounded-circle">-->
+                     width="250" class="rounded-circle">
 
             </div>
 
             <div class="col-md-9">
                 <div class="d-flex fles-row justify-content-between align-items-center">
-                    <h2>Información de contacto</h2>
+                    <h2>Información del Usuario</h2>
                     <div>
-                        <!--<a th:href="@{/user/edituser/{userId} (userId = ${user.id})}" class="btn btn-success" role="button">Editar</a>
--->
+                        <a th:href="@{/user/edituser/{userId} (userId = ${user.id})}" class="btn btn-success" role="button">Editar</a>
 
                     </div>
 
