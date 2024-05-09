@@ -66,15 +66,18 @@ public class ImageService {
         }
     }
 
-    public Image getImageById(String id) throws MyException {
+   /* public Image getImageById(String id) throws MyException {
         Optional<Image> response = imagenRepositorio.findById(id);
         if (response.isPresent()) {
             return response.get();
         } else {
             throw new MyException("La imagen con el ID proporcionado no existe.");
         }
-    }
+    }*/
+    public Image getImageById(String id) {
 
+        return imagenRepositorio.findById(id).orElse(null);
+    }
 
 
     public Image getDefaultImage() {

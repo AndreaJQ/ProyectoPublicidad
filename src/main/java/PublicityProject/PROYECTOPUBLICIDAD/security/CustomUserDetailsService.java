@@ -42,7 +42,7 @@ private UserRepository userRepository;
 
             HttpSession session = attr.getRequest().getSession(true);
 
-            session.setAttribute("usersesion", user);
+            session.setAttribute("usuariosession", user);
 
             User authUser =new User(
                     user.getEmail(),

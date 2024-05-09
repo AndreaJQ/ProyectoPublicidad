@@ -1,15 +1,16 @@
 package PublicityProject.PROYECTOPUBLICIDAD.controller;
 
+import PublicityProject.PROYECTOPUBLICIDAD.entity.Proyecto;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
+import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ProjectService;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.List;
 public class UserController {
    @Autowired
     private UserService userService;
+    @Autowired
+    private ProjectService pService;
 
 
     @GetMapping("/users")
@@ -43,8 +46,32 @@ public class UserController {
     public String profile(ModelMap modelo, HttpSession session){
         UserEntity user = (UserEntity) session.getAttribute("usuariosession");
         modelo.put("user", user);
-
-
+        List<Proyecto> proyecto = pService.list();
+        modelo.addAttribute("proyecto", proyecto);
         return "perfil_user.html";
+    }
+
+    //--------------------------UPDATE-----------------
+    //@PreAuthorize("hasAnyRole('ROLE_USERAGENT', 'ROLE_CLIENTE', 'ROLE_ADMIN')")
+    @GetMapping("/edituser/{userId}")
+    public String editUser(@PathVariable("userId") long userId, ModelMap model, HttpSession session){
+
+        UserEntity user = (UserEntity) session.getAttribute("usuariosession");
+
+        model.addAttribute("user", user);
+        return"perfil_edit.html";
+    }
+
+    //@PreAuthorize("hasAnyRole('ROLE_USERAGENT', 'ROLE_CLIENTE', 'ROLE_ADMIN')")
+
+    @PostMapping("/edituser/{userId}")
+    public String editUser(@PathVariable("userId") Long userId, @RequestParam String name, @RequestParam String lastName,
+                           @RequestParam String address, @RequestParam String contact, ModelMap model,
+                           MultipartFile archivo, HttpSession session) throws Exception {
+
+        UserEntity updatedUser= userService.updateUser(userId,name,lastName,contact,address,archivo);
+        session.setAttribute("usuariosession", updatedUser);
+        return "redirect:/user/perfil";
+
     }
 }
