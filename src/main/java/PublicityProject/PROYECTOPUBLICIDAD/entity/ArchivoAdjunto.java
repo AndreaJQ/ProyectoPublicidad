@@ -1,16 +1,12 @@
 package PublicityProject.PROYECTOPUBLICIDAD.entity;
 
-
+import javax.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-
 @Data
-@Table(name = "imagen")
 @Entity
-
-public class Image {
+public class ArchivoAdjunto {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")

@@ -1,8 +1,10 @@
 package PublicityProject.PROYECTOPUBLICIDAD.entity;
 
-import jakarta.persistence.*;
+
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 @Data
 @Entity

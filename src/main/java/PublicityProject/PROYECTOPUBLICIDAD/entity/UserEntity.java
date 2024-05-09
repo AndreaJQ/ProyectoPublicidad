@@ -1,6 +1,6 @@
 package PublicityProject.PROYECTOPUBLICIDAD.entity;
 import PublicityProject.PROYECTOPUBLICIDAD.enumeration.Role;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 @Data

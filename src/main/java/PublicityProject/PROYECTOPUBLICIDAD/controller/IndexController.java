@@ -34,7 +34,6 @@ public class IndexController {
         return "registro.html";
     }
     @PostMapping("/newuser")
-
     public String saveUser(UserEntity userEntity, String password, String password2, MultipartFile archivo , BindingResult result, ModelMap model ) throws Exception, MyException {
         userService.create(userEntity, password,password2, archivo);
 

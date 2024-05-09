@@ -1,10 +1,10 @@
 package PublicityProject.PROYECTOPUBLICIDAD.entity;
 
 import PublicityProject.PROYECTOPUBLICIDAD.enumeration.ProjectStatus;
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +18,10 @@ import java.util.List;
 @Builder
 public class Proyecto {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne
+    private UserEntity propietario;
     private String nombre;
 
     @Temporal(TemporalType.DATE)
@@ -30,22 +31,20 @@ public class Proyecto {
 
     @Column(columnDefinition = "LONGTEXT")
     @Basic(optional = true)
-    private String notas;
+    private String descripcion;
+
 
     @ManyToMany
-    private List<UserEntity> usuarios;
+    private List<UserEntity> colaboradores;
     @Enumerated (EnumType.STRING)
     private ProjectStatus estado;
 
     private Boolean AltaBaja;
     @OneToOne
     @Basic(optional = true)
-    private Archivo archivo;
+    private ArchivoAdjunto archivo;
 
     @Enumerated(EnumType.STRING)
     private AccessType visibilidad;
-    public void addUsuario(UserEntity usuario) {
-        this.usuarios.add(usuario);
-    }
 
 }
