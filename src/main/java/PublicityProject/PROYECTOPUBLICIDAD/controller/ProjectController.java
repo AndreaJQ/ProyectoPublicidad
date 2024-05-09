@@ -1,26 +1,20 @@
 package PublicityProject.PROYECTOPUBLICIDAD.controller;
-
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Proyecto;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
-import PublicityProject.PROYECTOPUBLICIDAD.enumeration.AccessType;
-import PublicityProject.PROYECTOPUBLICIDAD.enumeration.ProjectStatus;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ProjectService;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.UserService;
-import jakarta.servlet.http.HttpSession;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 
 
 @Controller
@@ -37,7 +31,7 @@ public class ProjectController {
 
 
     //-------------------CREATE PROJECT---------------------------
-    @GetMapping("/proyecto")
+   @GetMapping("/proyecto")
     public String newproject(ModelMap model, HttpSession session){
         UserEntity user = (UserEntity) session.getAttribute("usersesssion");
         Proyecto project = new Proyecto();
@@ -45,32 +39,35 @@ public class ProjectController {
         model.put("proyecto", project);
         model.put("user", user);
 
-        return "Formulario_Proyectos.html";
+        return "Formulario_Proyecto.html";
     }
-
     @PostMapping("/newProyecto")
     public String saveProject(@ModelAttribute("proyecto") Proyecto project,
-                                  HttpSession session, ModelMap modelMap,
-                                  BindingResult result,
-                                  List<File> archivos) throws MyException, IOException {
+                              //HttpSession session,
+                              ModelMap modelMap,
+                            //  BindingResult result,
+                              @RequestParam ("archivos") MultipartFile archivos) throws MyException, IOException {
 
-        UserEntity user = (UserEntity) session.getAttribute("usuariosession");
-        modelMap.put("user", user);
-        Long userId = user.getId();
+        //UserEntity user = (UserEntity) session.getAttribute("usuariosession");
+        //modelMap.put("user", user);
+        //Long userId = user.getId();
+
+        //if (result.hasErrors()){
+           // modelMap.put("proyecto", project);
+          // modelMap.put("user", user);
+           // return "Formulario_Proyecto.html";
+        //}
 
 
-        if (result.hasErrors()) {
-            modelMap.put("proyecto", project);
-            modelMap.put("user", user);
+        project.setDescripcion(project.getDescripcion().replace("\n", "<br>"));
 
-            return "Formulario_Proyecto.html";
-        }
-        project.setNotas(project.getNotas().replace("\n", "<br>"));
-
-        pService.create(project, userId, archivos);
+        pService.create(project, archivos);
         return "redirect:/projectlist";
 
     }
+/*
+
+
 
     //---------------------------READ-----------------------LIST
 
@@ -81,7 +78,7 @@ public class ProjectController {
         model.addAttribute("proyecto",project);
 
 
-        return "inicio.html";
+        return "project-list.html";
     }
 
     //proyecto by user
@@ -105,7 +102,7 @@ public class ProjectController {
 
 
     // --------------------UPDATE------------------------------
-    @PostMapping("/modificar")
+  /*  @PostMapping("/modificar")
     public String modificar(@RequestParam String projectId, @RequestParam String nombre, @RequestParam String notas,
                              @RequestParam File archivos,
                             @RequestParam Date fecha, @RequestParam Date fechalimite,
@@ -134,5 +131,5 @@ public class ProjectController {
     public String deletePro(@PathVariable("proId") String proId){
         pService.delete(proId);
         return "redirect:/proyectoByUser";
-    }
+    }*/
 }

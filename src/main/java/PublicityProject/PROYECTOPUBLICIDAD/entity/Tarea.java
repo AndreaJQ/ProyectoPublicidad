@@ -2,7 +2,7 @@ package PublicityProject.PROYECTOPUBLICIDAD.entity;
 
 
 import PublicityProject.PROYECTOPUBLICIDAD.enumeration.estadoTarea;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -24,6 +24,8 @@ public class Tarea {
     @ManyToOne
     private UserEntity agente;
     private Boolean baja;
+    @OneToMany
+    private List<Comment> comentario;
 
 
 

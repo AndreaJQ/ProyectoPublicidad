@@ -3,7 +3,7 @@ package PublicityProject.PROYECTOPUBLICIDAD.service.impl;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Image;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.ImageRepository;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;

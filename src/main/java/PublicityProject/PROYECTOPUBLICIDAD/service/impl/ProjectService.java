@@ -1,21 +1,16 @@
 package PublicityProject.PROYECTOPUBLICIDAD.service.impl;
 
-import PublicityProject.PROYECTOPUBLICIDAD.entity.Archivo;
-import PublicityProject.PROYECTOPUBLICIDAD.entity.Proyecto;
-import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
-import PublicityProject.PROYECTOPUBLICIDAD.enumeration.AccessType;
-import PublicityProject.PROYECTOPUBLICIDAD.enumeration.ProjectStatus;
+import PublicityProject.PROYECTOPUBLICIDAD.entity.*;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
+import PublicityProject.PROYECTOPUBLICIDAD.repository.ArchivoRepository;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.ProjectRepository;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,34 +19,68 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
     private ImageService imageService;
     @Autowired
-    private ArchivoService archivoService;
+    private UserRepository userRepository;
+    @Autowired
+    private FileService fileService;
+    @Autowired
+    private ArchivoRepository archivoRepository;
+    @Autowired
+    private ProjectRepository pRepository;
+
+
 
     //------------------------CREATE--------------------------
-    @Transactional
-   public void create (Proyecto project, Long userId,
-                        List<File> archivo) throws MyException, IOException {
-        UserEntity user = new UserEntity();
-        Optional<UserEntity> answer = userRepository.findById(userId);
+   @Transactional
+    public void create (Proyecto proyecto,/* Long userId,*/ MultipartFile archivo ) throws MyException, IOException {
+        //validate();
+       //UserEntity user = new UserEntity();
 
-        /*if (answer.isPresent()){
-            user = answer.get();
-            project.setUsuarios((List<UserEntity>) user);
+       //Optional <UserEntity> answer = userRepository.findById(userId);
 
-            List<Archivo> files = new ArrayList<>();
-            //for (File archivos : archivo){
-              //  Archivo file = archivoService.CreateFile(String.valueOf(archivos));
-                //archivo.add(file);
-            }
-            //CORREGIR LINEAS PORQUE TIENE QUE SER ENTIDAD ARCHIVO - NO IMAGEN
-            project.setArchivo((Archivo) files);
-            projectRepository.save(project);
-        }*/
+
+       //if (answer.isPresent()){
+         //  user= answer.get();
+          // proyecto.setPropietario(user);
+
+          ArchivoAdjunto file = fileService.guardar(archivo);
+           proyecto.setArchivo(file);
+           pRepository.save(proyecto);
+       //}
 
     }
+
+    /*@Transactional
+    public void guardar(MultipartFile archivo,
+                       String nombre, AccessType visibilidad,
+                        String notas, Long idCliente, Long idUsuario, Date fechaLimite) throws MyException {
+        //validar(nombre, visibilidad, idUsuario, idCliente);
+
+        Proyecto proyecto = new Proyecto();
+        FileOptional file = fileService.guardar(archivo);
+        List<UserEntity> usuarios = new ArrayList();
+       /* usuarios.add(userService.getOne(idUsuario));
+        usuarios.add(userService.getOne(idCliente));
+        proyecto.setNombre(nombre);
+        proyecto.setUsuarios(usuarios);
+        proyecto.setVisibilidad(AccessType.PRIVATE);
+        proyecto.setNotas(notas);
+        proyecto.setFechaLimite(fechaLimite);
+        proyecto.setFecha(new Date());
+        proyecto.setArchivo(file);
+        proyecto.setAltaBaja(Boolean.FALSE);
+        projectRepository.save(proyecto);
+    }*/
+
+
+
+
+
+
+
 
     //------------------------READ--------------------------
     public List <Proyecto> list(){
@@ -70,7 +99,7 @@ public class ProjectService {
     }
 
     //------------------------UPDATE--------------------------
-    @Transactional
+   /* @Transactional
     public Proyecto updateProject (File archivos, String id,
                                    //List<MultipartFile> archivos,
                                    String nombre,
@@ -99,7 +128,7 @@ public class ProjectService {
                     updateImages.add(newImage);
                 }
                 updateProject.setArchivo((Archivo) archivos);
-            }*/
+            }
 
             projectRepository.save(updateProject);
             return updateProject;
@@ -107,7 +136,7 @@ public class ProjectService {
             return null;
         }
 
-    }
+    }*/
 
 
     //------------------------DELETE--------------------------

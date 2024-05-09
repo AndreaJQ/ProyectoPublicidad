@@ -3,6 +3,7 @@ package PublicityProject.PROYECTOPUBLICIDAD.controller;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Proyecto;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Tarea;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
+import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ProjectService;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ServiceTarea;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,13 @@ public class AdminController {
 
     private UserService userService;
     private ServiceTarea tareaService;
+    private ProjectService projectService;
 
     @Autowired
-    public AdminController(UserService userService, ServiceTarea tareaService) {
+    public AdminController(UserService userService, ServiceTarea tareaService, ProjectService projectService) {
         this.userService = userService;
         this.tareaService=tareaService;
+        this.projectService=projectService;
     }
     @GetMapping("/dashboard")
     public String panelAdmin(){
@@ -84,6 +87,39 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    //   -------------P-------R--------O--------J--------E---------C---------T----------S
+
+    //----------LIST PUBLICATIONS----------------
+    @GetMapping("/projects")
+    public String listProject (ModelMap model){
+        List<Proyecto> proyecto = projectService.list();
+        model.addAttribute("proyecto", proyecto);
+
+        return "project-list";
+    }
+    //----------CHANGE Project STATUS----------------
+    @GetMapping("/status/{id}")
+    public String changeStatuspub(@PathVariable Long id){
+       // projectService.changeStatus(id);
+        return "redirect:/admin/projects";
+    }
+
+    @PostMapping("/status/{id}")
+    public String changeStatuspubl(@PathVariable Long id){
+        // projectService.changeStatus(id);
+        return "redirect:/admin/projects";
+    }
+    //----------DELETE PUBLICATION----------------
+    @GetMapping("/deleteProject/{id}")
+    public String deleteProject(@PathVariable("id") String id, Model model){
+        try{
+            projectService.delete(id);
+            return "redirect:/admin/projects";
+        }catch (Exception ex){
+            model.addAttribute("error", "No se puede eliminar la Publicacion porque se encuentra vinculada a una solicitud o comentario");
+            return "error-deletePublication";
+        }
+    }
 
 
 }

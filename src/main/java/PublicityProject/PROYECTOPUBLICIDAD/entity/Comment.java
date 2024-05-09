@@ -2,12 +2,18 @@ package PublicityProject.PROYECTOPUBLICIDAD.entity;
 import java.util.Date;
 
 
-import jakarta.persistence.*;
+
 import org.hibernate.annotations.GenericGenerator;
 import lombok.Data;
 
-@Entity
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.*;
+
+
 @Data
+@Entity
 public class Comment {
     @Id
     @GeneratedValue(generator = "uuid")

@@ -6,11 +6,19 @@ import PublicityProject.PROYECTOPUBLICIDAD.enumeration.Role;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +32,9 @@ public class UserService {
     @Autowired
     private ImageService imageService;
 
-//--------------------CREATE--------------------------
+    //--------------------CREATE--------------------------
     @Transactional
-    public void create (UserEntity us, String password, String password2, MultipartFile archivo) throws MyException, IOException {
+    public void create(UserEntity us, String password, String password2, MultipartFile archivo) throws MyException, IOException {
         //validate(us,password,password2,archivo);
         Image image;
         if (archivo != null && !archivo.isEmpty()) {
@@ -38,6 +46,7 @@ public class UserService {
         us.setPassword(new BCryptPasswordEncoder().encode(password));
         userRepository.save(us);
     }
+
     @Transactional
     public void delete(Long id) {
         userRepository.deleteById(id);
@@ -48,6 +57,7 @@ public class UserService {
         user = userRepository.findAll();
         return user;
     }
+
     //---------------------GET USER BY ID-----------------
     public UserEntity getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
@@ -73,7 +83,7 @@ public class UserService {
             }
             Image image;
             if (archivo != null && !archivo.isEmpty()) {
-                image = imageService.UpdateImage(archivo,idImage);
+                image = imageService.UpdateImage(archivo, idImage);
             } else {
                 image = imageService.getDefaultImage();
             }
@@ -85,10 +95,6 @@ public class UserService {
         }
         return user;
     }
-
-
-
-
 
 
     //-----------------VALIDATE--------------------------
@@ -150,6 +156,7 @@ public class UserService {
 
         }
     }
+
     @Transactional
     public void changeUserStatus(Long id) {
         Optional<UserEntity> answer = userRepository.findById(id);
@@ -163,4 +170,11 @@ public class UserService {
             }
         }
     }
+
+    @Transactional(readOnly = true)
+    public UserEntity getOne(Long id) {
+        return userRepository.getOne(id);
+    }
+
+
 }
