@@ -111,7 +111,7 @@ public class AdminController {
     }
     //----------DELETE PUBLICATION----------------
     @GetMapping("/deleteProject/{id}")
-    public String deleteProject(@PathVariable("id") String id, Model model){
+    public String deleteProject(@PathVariable("id") Long id, Model model){
         try{
             projectService.delete(id);
             return "redirect:/admin/projects";

@@ -43,6 +43,7 @@ public class UserService {
             image = imageService.getDefaultImage();
         }
         us.setImage(image);
+        us.setStatus(false);
         us.setPassword(new BCryptPasswordEncoder().encode(password));
         userRepository.save(us);
     }
@@ -74,7 +75,7 @@ public class UserService {
             user.setLastName(lastName);
             user.setContact(contact);
             user.setAddress(address);
-            user.setStatus(true);
+
 
             String idImage = null;
 
