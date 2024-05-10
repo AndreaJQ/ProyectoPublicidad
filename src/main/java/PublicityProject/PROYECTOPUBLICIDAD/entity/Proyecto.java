@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Table(name = "proyecto")
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 @Setter
 @Builder
@@ -38,7 +39,7 @@ public class Proyecto {
 
 
     @ManyToMany
-    private List<UserEntity> colaboradores;
+    private List<UserEntity> colaborador;
     @Enumerated (EnumType.STRING)
     private ProjectStatus estado;
 
@@ -50,4 +51,7 @@ public class Proyecto {
     @Enumerated(EnumType.STRING)
     private Visibilidad visibilidad;
 
+    public Proyecto() {
+        this.colaborador = new ArrayList<>();
+    }
 }

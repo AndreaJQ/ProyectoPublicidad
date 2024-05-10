@@ -41,9 +41,8 @@ public class ProjectController {
         model.put("proyecto", project);
         model.put("user", user);
 
-
-       List<UserEntity> colab=userService.list();
-       model.addAttribute("colaborador", colab);
+       List<UserEntity> colaborador=userService.list();
+       model.addAttribute("colaborador", colaborador);
 
         return "Formulario_Proyecto.html";
     }
@@ -51,29 +50,22 @@ public class ProjectController {
     public String saveProject(@ModelAttribute("proyecto") Proyecto project,
                               HttpSession session,
                               ModelMap modelMap,
-                             BindingResult result,
-                              @RequestParam ("archivos") MultipartFile archivos
-                              //Long idColab
-    ) throws MyException, IOException, ParseException {
+                              BindingResult result,
+                              @RequestParam ("archivos") MultipartFile archivos,
+                              @RequestParam("idColabs") List<Long> idColab) throws MyException, IOException, ParseException {
 
         UserEntity user = (UserEntity) session.getAttribute("usuariosession");
         modelMap.put("user", user);
         Long userId = user.getId();
 
-
         if (result.hasErrors()){
             modelMap.put("proyecto", project);
-           modelMap.put("user", user);
+            modelMap.put("user", user);
             return "Formulario_Proyecto.html";
         }
-
-
-        pService.create(project, userId, archivos);
+        pService.create(project, userId, archivos,idColab);
         return "redirect:/projectlist";
-
     }
-
-
 
 
     //---------------------------READ-----------------------LIST

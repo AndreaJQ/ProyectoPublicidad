@@ -27,18 +27,27 @@
                               rows="1"
                               required></textarea>
 
-
-
                     <label class="form-label">Selecciona tipo:</label>
                     <select class="form-control me-2" id="visibilidad" name="visibilidad" >
-                        <option value="">Seleccione un rubro</option>
+                        <option value="visibilidad">Seleccione un tipo (Publico, Privado, Grupo)</option>
                         <option th:each="visibilidad : ${T(PublicityProject.PROYECTOPUBLICIDAD.enumeration.Visibilidad).values()}"
                                 th:value="${visibilidad}" th:text="${visibilidad}"></option>
                     </select>
+                    <br>
                     <div class="d-grid gap-2 d-md-block">
                         <label >Fecha límite del proyecto</label><br>
                         <input type="date" class="form-control" th:field="*{fechaLimite}">
                     </div>
+                    <br>
+                    <label class="form-label">Selecciona Colaborador:</label>
+                    <select class="form-control me-2" name="idColabs" multiple>
+                        <!-- Opción predeterminada -->
+                        <option disabled>Seleccionar Colaboradores</option>
+
+                        <!-- Iterar sobre los colaboradores -->
+                        <option th:each="colaborador : ${colaborador}"
+                                th:value="${colaborador.id}" th:text="${colaborador.name}" />
+                    </select>
 
                     <br>
                     <label class="form-label" for="archivo">Cargue sus archivos: </label>
