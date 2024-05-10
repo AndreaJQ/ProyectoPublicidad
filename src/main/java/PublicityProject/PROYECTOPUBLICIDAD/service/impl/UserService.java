@@ -63,6 +63,9 @@ public class UserService {
     public UserEntity getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+    public List<UserEntity> getAllById(List<Long> ids) {
+        return userRepository.findAllById(ids);
+    }
 
     //---------------------UPDATE USER-----------------
 

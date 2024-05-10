@@ -40,8 +40,8 @@ public class ProjectService {
    @Transactional
     public void create (Proyecto proyecto,
                         Long userId,
-                        MultipartFile archivo
-                        //Long idColab
+                        MultipartFile archivo,
+                        List<Long> idColabs
                         ) throws MyException, IOException {
         //validate();
        UserEntity user = new UserEntity();
@@ -54,10 +54,10 @@ public class ProjectService {
            proyecto.setEstado(ProjectStatus.TODO);
            proyecto.setAltaBaja(false);
 
-           // List<UserEntity> colaboradores = new ArrayList<>();
-            //colaboradores.add(userService.getOne(idColab));
+           List<UserEntity> colaboradores = userService.getAllById(idColabs);
+           proyecto.getColaborador().addAll(colaboradores);
 
-          ArchivoAdjunto file = fileService.guardar(archivo);
+           ArchivoAdjunto file = fileService.guardar(archivo);
            proyecto.setArchivo(file);
 
            pRepository.save(proyecto);
