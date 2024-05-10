@@ -154,4 +154,18 @@ public class ProjectService {
             projectRepository.delete(projectToDelete);
         }
     }
+    //------------------------CHANGE PROYECT STATUS--------------------------
+    @Transactional
+    public void changeStatus(Long id) {
+        Optional<Proyecto> answer = pRepository.findById(id);
+        if (answer.isPresent()) {
+            Proyecto project = answer.get();
+
+            if (project.isAltaBaja()) {
+                project.setAltaBaja(false);
+            } else if (!project.isAltaBaja()) {
+                project.setAltaBaja(true);
+            }
+        }
+    }
 }

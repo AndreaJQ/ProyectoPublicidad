@@ -22,8 +22,8 @@ public class AdjuntoController {
     public List<ArchivoAdjunto> listFiles() {
         return fileService.listarTodos();
     }
-    /*@GetMapping("/load/{id}")
-    public ResponseEntity<byte[]> loadFile(@PathVariable Long id) throws MyException {
+    @GetMapping("/load/{id}")
+    public ResponseEntity<byte[]> loadFile(@PathVariable String id) throws MyException {
         ArchivoAdjunto file = fileService.getById(id);
         if (file != null) {
             return ResponseEntity.ok()
@@ -32,5 +32,5 @@ public class AdjuntoController {
         } else {
             throw new MyException("El archivo con el ID proporcionado no existe.");
         }
-    }*/
+    }
 }

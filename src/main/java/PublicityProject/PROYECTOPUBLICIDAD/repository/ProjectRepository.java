@@ -11,14 +11,14 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository <Proyecto, Long> {
-   /* Optional<Proyecto> findByTitle(String title);
-    @Query("SELECT p from proyecto p WHERE p.nombre LIKE CONCAT('%',:query,'%')")
+   //Optional<Proyecto> findByTitle(String title);
+   /* @Query("SELECT p from proyecto p WHERE p.nombre LIKE CONCAT('%',:query,'%')")
     List<Proyecto> searchPublication(String query);
     @Query("SELECT p from proyecto p WHERE p.notas LIKE CONCAT('%',:query,'%')")
     List<Proyecto> searchContentPublication(String query);
 
 
     List<Proyecto> findByRubro(ProjectStatus estado);
+*/
 
-    */
 }
