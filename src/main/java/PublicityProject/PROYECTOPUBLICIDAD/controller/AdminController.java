@@ -100,13 +100,13 @@ public class AdminController {
     //----------CHANGE Project STATUS----------------
     @GetMapping("/status/{id}")
     public String changeStatuspub(@PathVariable Long id){
-       // projectService.changeStatus(id);
+        projectService.changeStatus(id);
         return "redirect:/admin/projects";
     }
 
     @PostMapping("/status/{id}")
     public String changeStatuspubl(@PathVariable Long id){
-        // projectService.changeStatus(id);
+        projectService.changeStatus(id);
         return "redirect:/admin/projects";
     }
     //----------DELETE PUBLICATION----------------

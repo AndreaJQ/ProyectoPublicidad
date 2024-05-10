@@ -80,11 +80,11 @@ public class ProjectController {
     }
 
     //proyecto by user
-/*
+
 
     //----------------------READ-----------------------DETAIL
     @GetMapping("/proyecto/{projectId}")
-    public String projectId(@PathVariable("projectId") String projectId, Model model, ModelMap modelo){
+    public String projectId(@PathVariable("projectId") Long projectId, Model model, ModelMap modelo){
        Proyecto project =pService.getOne(projectId);
 
         //List<Tarea> tareas = tareaService.listarTareasProyecto(projectId);
@@ -94,7 +94,7 @@ public class ProjectController {
        // tareas.forEach(tarea -> tarea.ordernarComentarios());
 
 
-        return "Vista_formulario_Servicios3.html";
+        return "project-detail.html";
     }
 
 

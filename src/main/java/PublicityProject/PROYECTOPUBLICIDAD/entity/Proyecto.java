@@ -43,7 +43,7 @@ public class Proyecto {
     @Enumerated (EnumType.STRING)
     private ProjectStatus estado;
 
-    private Boolean AltaBaja;
+    private boolean AltaBaja;
     @OneToOne
     @Basic(optional = true)
     private ArchivoAdjunto archivo;
@@ -54,4 +54,6 @@ public class Proyecto {
     public Proyecto() {
         this.colaborador = new ArrayList<>();
     }
+
+
 }

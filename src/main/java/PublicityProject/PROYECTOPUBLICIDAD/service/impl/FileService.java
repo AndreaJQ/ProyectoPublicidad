@@ -37,7 +37,7 @@ public class FileService {
     }
 
     @Transactional
-    public ArchivoAdjunto actualizar(MultipartFile archivo, Long id) throws MyException {
+    public ArchivoAdjunto actualizar(MultipartFile archivo, String id) throws MyException {
         if (archivo != null) {
             try {
                 ArchivoAdjunto aux = new ArchivoAdjunto();
@@ -62,7 +62,7 @@ public class FileService {
     }
 
     @Transactional
-    public void eliminar(Long id) throws MyException {
+    public void eliminar(String id) throws MyException {
         try {
             ArchivoAdjunto aux = new ArchivoAdjunto();
             if (id != null) {
@@ -78,12 +78,12 @@ public class FileService {
     }
 
     @Transactional(readOnly = true)
-    public ArchivoAdjunto getOne(Long id) {
+    public ArchivoAdjunto getOne(String id) {
         return fileRepository.getOne(id);
     }
 
     @Transactional(readOnly = true)
-    public ArchivoAdjunto getById(Long id) throws MyException {
+    public ArchivoAdjunto getById(String id) throws MyException {
         Optional<ArchivoAdjunto> aux = fileRepository.findById(id);
         if (aux.isPresent()) {
             return aux.get();
