@@ -1,12 +1,14 @@
 package PublicityProject.PROYECTOPUBLICIDAD.controller;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Proyecto;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
+import PublicityProject.PROYECTOPUBLICIDAD.enumeration.Visibilidad;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ProjectService;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.UserService;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
 
 
 @Controller
@@ -28,44 +32,47 @@ public class ProjectController {
 
 
 
-
-
     //-------------------CREATE PROJECT---------------------------
    @GetMapping("/proyecto")
     public String newproject(ModelMap model, HttpSession session){
-        UserEntity user = (UserEntity) session.getAttribute("usersesssion");
+        UserEntity user = (UserEntity) session.getAttribute("usuariosession");
         Proyecto project = new Proyecto();
 
         model.put("proyecto", project);
         model.put("user", user);
 
+
+       List<UserEntity> colab=userService.list();
+       model.addAttribute("colaborador", colab);
+
         return "Formulario_Proyecto.html";
     }
     @PostMapping("/newProyecto")
     public String saveProject(@ModelAttribute("proyecto") Proyecto project,
-                              //HttpSession session,
+                              HttpSession session,
                               ModelMap modelMap,
-                            //  BindingResult result,
-                              @RequestParam ("archivos") MultipartFile archivos) throws MyException, IOException {
+                             BindingResult result,
+                              @RequestParam ("archivos") MultipartFile archivos
+                              //Long idColab
+    ) throws MyException, IOException, ParseException {
 
-        //UserEntity user = (UserEntity) session.getAttribute("usuariosession");
-        //modelMap.put("user", user);
-        //Long userId = user.getId();
-
-        //if (result.hasErrors()){
-           // modelMap.put("proyecto", project);
-          // modelMap.put("user", user);
-           // return "Formulario_Proyecto.html";
-        //}
+        UserEntity user = (UserEntity) session.getAttribute("usuariosession");
+        modelMap.put("user", user);
+        Long userId = user.getId();
 
 
-        project.setDescripcion(project.getDescripcion().replace("\n", "<br>"));
+        if (result.hasErrors()){
+            modelMap.put("proyecto", project);
+           modelMap.put("user", user);
+            return "Formulario_Proyecto.html";
+        }
 
-        pService.create(project, archivos);
+
+        pService.create(project, userId, archivos);
         return "redirect:/projectlist";
 
     }
-/*
+
 
 
 
@@ -74,15 +81,14 @@ public class ProjectController {
     @GetMapping("/projectlist")
     public String projectList(Model model, Authentication authentication){
 
-        List<Proyecto> project = pService.list();
-        model.addAttribute("proyecto",project);
-
+        List<Proyecto> proyecto = pService.list();
+        model.addAttribute("proyecto",proyecto);
 
         return "project-list.html";
     }
 
     //proyecto by user
-
+/*
 
     //----------------------READ-----------------------DETAIL
     @GetMapping("/proyecto/{projectId}")

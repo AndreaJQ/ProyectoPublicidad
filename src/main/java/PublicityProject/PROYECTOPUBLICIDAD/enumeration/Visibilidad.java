@@ -1,5 +1,6 @@
 package PublicityProject.PROYECTOPUBLICIDAD.enumeration;
 
-public enum AccessType {
-    PUBLIC, PRIVATE, GROUP
+public enum Visibilidad {
+    PUBLIC, PRIVATE, GROUP;
+
 }

@@ -28,13 +28,17 @@
                               required></textarea>
 
 
-                  <!-- <label class="form-label" for="visibilidad">Selecciona tipo:</label>
-                    <select class="form-control me-2" id="visibilidad" name="visibilidad" th:field="*{visibilidad}">
-                        <option value="">Seleccione un tipo</option>
-                        <option value="PUBLIC">PUBLICO</option>
-                        <option value="PRIVATE">PRIVADO</option>
-                        <option value="GROUP">GRUPO</option>
-                    </select>-->
+
+                    <label class="form-label">Selecciona tipo:</label>
+                    <select class="form-control me-2" id="visibilidad" name="visibilidad" >
+                        <option value="">Seleccione un rubro</option>
+                        <option th:each="visibilidad : ${T(PublicityProject.PROYECTOPUBLICIDAD.enumeration.Visibilidad).values()}"
+                                th:value="${visibilidad}" th:text="${visibilidad}"></option>
+                    </select>
+                    <div class="d-grid gap-2 d-md-block">
+                        <label >Fecha límite del proyecto</label><br>
+                        <input type="date" class="form-control" th:field="*{fechaLimite}">
+                    </div>
 
                     <br>
                     <label class="form-label" for="archivo">Cargue sus archivos: </label>

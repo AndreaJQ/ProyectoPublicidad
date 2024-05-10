@@ -1,6 +1,8 @@
 package PublicityProject.PROYECTOPUBLICIDAD.service.impl;
 
 import PublicityProject.PROYECTOPUBLICIDAD.entity.*;
+import PublicityProject.PROYECTOPUBLICIDAD.enumeration.Visibilidad;
+import PublicityProject.PROYECTOPUBLICIDAD.enumeration.ProjectStatus;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.ArchivoRepository;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.ProjectRepository;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,24 +38,32 @@ public class ProjectService {
 
     //------------------------CREATE--------------------------
    @Transactional
-    public void create (Proyecto proyecto,/* Long userId,*/ MultipartFile archivo ) throws MyException, IOException {
+    public void create (Proyecto proyecto,
+                        Long userId,
+                        MultipartFile archivo
+                        //Long idColab
+                        ) throws MyException, IOException {
         //validate();
-       //UserEntity user = new UserEntity();
+       UserEntity user = new UserEntity();
+       Optional <UserEntity> answer = userRepository.findById(userId);
+       if (answer.isPresent()){
+           user= answer.get();
+           proyecto.setPropietario(user);
 
-       //Optional <UserEntity> answer = userRepository.findById(userId);
+           proyecto.setFecha(new Date());
+           proyecto.setEstado(ProjectStatus.TODO);
+           proyecto.setAltaBaja(false);
 
-
-       //if (answer.isPresent()){
-         //  user= answer.get();
-          // proyecto.setPropietario(user);
+           // List<UserEntity> colaboradores = new ArrayList<>();
+            //colaboradores.add(userService.getOne(idColab));
 
           ArchivoAdjunto file = fileService.guardar(archivo);
            proyecto.setArchivo(file);
+
            pRepository.save(proyecto);
-       //}
-
+       }
     }
-
+//^evita escribir tantas lineas
     /*@Transactional
     public void guardar(MultipartFile archivo,
                        String nombre, AccessType visibilidad,
@@ -76,25 +87,20 @@ public class ProjectService {
     }*/
 
 
-
-
-
-
-
-
     //------------------------READ--------------------------
+       @Transactional
     public List <Proyecto> list(){
         List<Proyecto> project = new ArrayList<>();
         project=projectRepository.findAll();
         return project;
     }
 
-    public Optional<Proyecto> getProjectById (String id){
+    public Optional<Proyecto> getProjectById (Long id){
         return projectRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
-    public Proyecto getOne(String id) {
+    public Proyecto getOne(Long id) {
         return projectRepository.getOne(id);
     }
 
@@ -141,15 +147,11 @@ public class ProjectService {
 
     //------------------------DELETE--------------------------
     @Transactional
-    public void delete (String id){
+    public void delete (Long id){
         Optional<Proyecto> response = projectRepository.findById(id);
         if (response!=null){
             Proyecto projectToDelete = response.get();
             projectRepository.delete(projectToDelete);
         }
-
     }
-
-
-
 }

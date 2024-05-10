@@ -2,7 +2,9 @@ package PublicityProject.PROYECTOPUBLICIDAD.entity;
 
 import PublicityProject.PROYECTOPUBLICIDAD.enumeration.ProjectStatus;
 
+import PublicityProject.PROYECTOPUBLICIDAD.enumeration.Visibilidad;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,6 +28,7 @@ public class Proyecto {
 
     @Temporal(TemporalType.DATE)
     private Date fecha;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date fechaLimite;
 
@@ -45,6 +48,6 @@ public class Proyecto {
     private ArchivoAdjunto archivo;
 
     @Enumerated(EnumType.STRING)
-    private AccessType visibilidad;
+    private Visibilidad visibilidad;
 
 }

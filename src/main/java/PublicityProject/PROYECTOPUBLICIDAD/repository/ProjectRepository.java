@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProjectRepository extends JpaRepository <Proyecto, String> {
+public interface ProjectRepository extends JpaRepository <Proyecto, Long> {
    /* Optional<Proyecto> findByTitle(String title);
     @Query("SELECT p from proyecto p WHERE p.nombre LIKE CONCAT('%',:query,'%')")
     List<Proyecto> searchPublication(String query);
