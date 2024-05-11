@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head th:replace="fragments/layout :: _head"></head>
-
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Edit Project</title>
+</head>
 
 <body>
-<header th:replace="fragments/layout :: _header"></header>
+<section layout:fragment="body">
 
 <main class="main-gris">
-    <div th:replace="fragments/layout :: nav-server"></div>
     <div class="container">
         <div class="d-flex fles-row justify-content-between align-items-center">
             <h1>Completa la información de tu servicios</h1>
@@ -32,7 +33,6 @@
                        th:value="${publication.description2}"
                        rows="4" required></textarea>
 
-
                 <label class="form-label" for="rubro">Selecciona un rubro:</label>
                 <select class="form-control me-2" id="rubro" name="rubro" >
                     <option value="">Seleccione un rubro</option>
@@ -41,22 +41,14 @@
                 </select>
 
                 <label class="form-label" for="archivo">Cargue sus imagenes: </label>
-
-                <input class="form-control mb-4" type="file" id="archivo" name="archivos" accept="image/*" multiple required onchange="mostrarVistaPrevia(this);">
-
-
+                <input class="form-control mb-4" type="file" id="archivo"
+                       name="archivos" accept="image/*" multiple required onchange="mostrarVistaPrevia(this);">
                 <div id="imagenes-previas"></div>
                 <br>
             <button class="w-100 btn btn-success btn-lg mb-4" type="submit" >Publicar</button>
-
             </form>
     </div>
 </main>
-
-    <!-- Área donde se mostrarán los datos de la publicación -->
-<footer th:replace="fragments/layout :: _footer"></footer>
-
-
         <script src=".@{static/js/Formulario_Servicios.js}"></script>
         <script th:inline="javascript">
     function mostrarVistaPrevia(input) {
@@ -80,7 +72,6 @@
         }
     }
 </script>
-<div th:replace="fragments/layout :: _script"></div>
+</section>
 </body>
-
 </html>

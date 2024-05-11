@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head th:replace="fragments/layout :: _head"></head>
-
-
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+        <title>Login</title>
+</head>
 <body>
-<header th:replace="fragments/layout :: _header"></header>
-
+<section layout:fragment="body">
 <main>
     <div class="d-flex flex-row-reverse a1">
         <div class="col-md-4 panel2" id="panel">
@@ -44,11 +44,6 @@
         </div>
     </div>
 </main>
-
-
-<footer th:replace="fragments/layout :: _footer"></footer>
-
-
 <script> // Es para que agregue la funcion de en caso de que si no completaste algun campo que te muestre una alerta avisandote que campo te falto
             const submitButton = document.getElementById('submitButton');
             const emailInput = document.getElementById('email');
@@ -81,7 +76,6 @@
                 }
             });
 </script>
-<div th:replace="fragments/layout :: _script"></div>
+</section>
 </body>
-
 </html>

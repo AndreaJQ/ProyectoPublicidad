@@ -21,8 +21,8 @@ var images = [
 
 
     //Este script le cambia una clase al head cuando scroleas para que se vea el nav
-    window.addEventListener("scroll", function(){
-        var header = document.querySelector("header");
-        header.classList.toggle("abajo", window.scrollY>0);
-    });
+   // window.addEventListener("scroll", function(){
+     //   var header = document.querySelector("header");
+       // header.classList.toggle("abajo", window.scrollY>0);
+   // });
 

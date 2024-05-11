@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head th:replace="fragments/layout :: _head"></head>
-
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Profile</title>
+</head>
 
 <body>
-<header th:replace="fragments/layout :: _header"></header>
-
+<section layout:fragment="body">
 <main class="main-gris">
-    <div th:replace="fragments/layout :: nav-server"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-3">
@@ -17,19 +17,14 @@
                      alt="perfil" width="250" class="rounded-circle">
                 <img th:unless="${session.usuariosession.image != null}" th:src="@{/imagen/pordefecto}" alt="perfil"
                      width="250" class="rounded-circle">
-
             </div>
-
             <div class="col-md-9">
                 <div class="d-flex fles-row justify-content-between align-items-center">
                     <h2>Información del Usuario</h2>
                     <div>
                         <a th:href="@{/user/edituser/{userId} (userId = ${user.id})}" class="btn btn-success" role="button">Editar</a>
-
                     </div>
-
                 </div>
-
                 <hr>
                 <p><strong>Nombre: </strong><span th:text="${session.usuariosession.name}"></span></p>
                 <p><strong>Apellido: </strong><span th:text="${session.usuariosession.lastName}"></span></p>
@@ -39,10 +34,7 @@
                 <p sec:authorize="hasAnyRole('ADMIN')">ADMINISTRADOR</p>
                 <p sec:authorize="hasAnyRole('USERAGENT')">USUARIO</p>
                 <p sec:authorize="hasAnyRole('CLIENT')">CLIENTE</p>
-
-
             </div>
-
         </div>
         <div class="row">
             <hr>
@@ -50,28 +42,13 @@
                 <h2 class="mb-0">Puntuación</h2>
 
 -->
-
             </div>
         </div>
-
         <div class="d-flex flex-wrap justify-content-between py-5">
-
-
-
-
-
-
-
-
-
-
         </div>
-
     </div>
 </main>
 
-
-<footer th:replace="fragments/layout :: _footer"></footer>
 
 <script>
     $(document).ready(function() {
@@ -86,7 +63,7 @@
       $('#promedioPuntaje').text(promedioPuntaje);
     });
 </script>
-<div th:replace="fragments/layout :: _script"></div>
+</section>
 </body>
 
 </html>
