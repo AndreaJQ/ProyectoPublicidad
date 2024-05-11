@@ -1,4 +1,5 @@
 package PublicityProject.PROYECTOPUBLICIDAD.controller;
+import PublicityProject.PROYECTOPUBLICIDAD.entity.ArchivoAdjunto;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Proyecto;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
 import PublicityProject.PROYECTOPUBLICIDAD.enumeration.Visibilidad;
@@ -18,7 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -100,25 +104,35 @@ public class ProjectController {
 
 
     // --------------------UPDATE------------------------------
-  /*  @PostMapping("/modificar")
-    public String modificar(@RequestParam String projectId, @RequestParam String nombre, @RequestParam String notas,
-                             @RequestParam File archivos,
-                            @RequestParam Date fecha, @RequestParam Date fechalimite,
-                            @RequestParam ProjectStatus estado, AccessType visibilidad,
-                            ModelMap modelo,
+    @GetMapping("/proyectoEdit/{proId}")
+    public String projectDetail(@PathVariable("proId") Long proId, Model model) {
+        Optional<Proyecto> optionalProyecto = pService.getProjectById(proId);
+        Proyecto proyecto = optionalProyecto.orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado para el ID: " + proId));
+        UserEntity user = proyecto.getPropietario();
+        model.addAttribute("proyecto", proyecto);
+        model.addAttribute("proId", proId);
+        model.addAttribute("user", user);
+        List<UserEntity> colaborador=userService.list();
+        model.addAttribute("colaborador", colaborador);
+        return "project-form.html";
+    }
+
+    @PostMapping("/proyectoEdit/{proId}")
+    public String modificar(@PathVariable("proId") Long proId,
+                            @RequestParam String nombre,
+                            @RequestParam String descripcion,
+                            @RequestParam("archivo") MultipartFile archivos,
+                           // @RequestParam("fechaLimite")  Date fechalimite, // Cambiar el tipo de dato a String
+                            @RequestParam Visibilidad visibilidad,
+                            @RequestParam List<Long> colaborador,
                             HttpSession session) {
-
-        Proyecto project =pService.getOne(projectId);
         try {
-            pService.updateProject(archivos,
-                    projectId, nombre, fecha, fechalimite,notas, estado, visibilidad);
-
+            pService.updateProject(proId, nombre, descripcion, visibilidad, archivos,colaborador);
 
             session.setAttribute("exito", "Proyecto modificado con exito!");
         } catch (MyException | IOException e) {
             session.setAttribute("error", e.getMessage());
         }
-
         return "redirect:/proyecto";
     }
 
@@ -126,8 +140,8 @@ public class ProjectController {
 
     //---------------------------DELETE-------------------------
     @GetMapping("/proyectoerase/{proId}")
-    public String deletePro(@PathVariable("proId") String proId){
+    public String deletePro(@PathVariable("proId") Long proId){
         pService.delete(proId);
         return "redirect:/proyectoByUser";
-    }*/
+    }
 }
