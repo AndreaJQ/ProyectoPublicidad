@@ -5,6 +5,7 @@ import PublicityProject.PROYECTOPUBLICIDAD.enumeration.Visibilidad;
 import PublicityProject.PROYECTOPUBLICIDAD.enumeration.ProjectStatus;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.ArchivoRepository;
+import PublicityProject.PROYECTOPUBLICIDAD.repository.FileRepository;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.ProjectRepository;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class ProjectService {
     private UserRepository userRepository;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private FileRepository fileRepository;
     @Autowired
     private ArchivoRepository archivoRepository;
     @Autowired
@@ -105,44 +108,35 @@ public class ProjectService {
     }
 
     //------------------------UPDATE--------------------------
-   /* @Transactional
-    public Proyecto updateProject (File archivos, String id,
-                                   //List<MultipartFile> archivos,
+   @Transactional
+    public Proyecto updateProject (Long id,
                                    String nombre,
-                                   Date fecha,
-                                   Date fechaLimite,
-                                   String notas,
-                                   ProjectStatus estado,
-                                   AccessType visibilidad) throws MyException, IOException {
+                                   String descripcion,
+                                   Visibilidad visibilidad,MultipartFile archivos,
+                                   List<Long> idColabs) throws MyException, IOException {
         Optional<Proyecto> optionalProyecto= projectRepository.findById(id);
         if (optionalProyecto.isPresent()) {
             Proyecto updateProject = optionalProyecto.get();
             updateProject.setNombre(nombre);
-            updateProject.setFecha(fecha);
-            updateProject.setFechaLimite(fechaLimite);
-            //updateProject.setUsuarios(getProjectById(id).get().getUsuarios());
-            updateProject.setNotas(notas);
-            //corregir la linea con el servicio de archivos
-            updateProject.setEstado(estado);
+            updateProject.setDescripcion(descripcion);
+            updateProject.setFecha(updateProject.getFecha());
+            updateProject.setVisibilidad(visibilidad);
+           // updateProject.setFechaLimite(fechaLimite);
+            List<UserEntity> colaboradores = new ArrayList<>();
+            colaboradores.addAll(userService.getAllById(idColabs));
+            updateProject.getColaborador().addAll(colaboradores);
 
-            //updateProject.setVisibilidad(AccessType);
-
-            /*if( archivos!= null && !archivos.isEmpty()){
-                List<Image> updateImages = new ArrayList<>();
-                for (MultipartFile archivo : archivos){
-                    Image newImage= imageService.createImagen(archivo);
-                    updateImages.add(newImage);
-                }
-                updateProject.setArchivo((Archivo) archivos);
+            if (archivos != null && !archivos.isEmpty()) {
+                ArchivoAdjunto nuevoArchivo = new ArchivoAdjunto();
+                fileRepository.save(nuevoArchivo);
+                updateProject.setArchivo(nuevoArchivo);
             }
-
             projectRepository.save(updateProject);
             return updateProject;
         }else {
             return null;
         }
-
-    }*/
+    }
 
 
     //------------------------DELETE--------------------------

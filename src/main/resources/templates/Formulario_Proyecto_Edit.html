@@ -16,24 +16,19 @@
             <a class="btn btn-outline-success" th:href="@{/user/perfil}" type="button">Volver</a>
         </div>
 
-            <form th:object="${publication}" th:action="@{/editPublication/{pId} (pId = ${publication.id})}" method="post" enctype="multipart/form-data">   <!--Aca tiene que ir la ruta donde esta el archivo Vista_formulario_Servicios.htm-->
+            <form th:object="${proyecto}" th:action="@{/editProyecto/{pId} (pId = ${proyecto.id})}" method="post" enctype="multipart/form-data">   <!--Aca tiene que ir la ruta donde esta el archivo Vista_formulario_Servicios.htm-->
 
             <label class="form-label">Título:</label>
             <input class="form-control mb-4" type="text"
                    name="title"
-                   th:value="${publication.title}" required>
+                   th:value="${proyecto.nombre}" required>
             <label class="form-label">Descripción corta:</label>
             <input class="form-control mb-4" type="text"
                    name="description"
-                   th:value="${publication.description}" required>
-            <label class="form-label">Descripción:</label>
-                <textarea class="form-control mb-4" type="text"
-                       name="description2"
-                          id="description2"
-                       th:value="${publication.description2}"
-                       rows="4" required></textarea>
+                   th:value="${proyecto.descripcion}" required>
 
-                <label class="form-label" for="rubro">Selecciona un rubro:</label>
+
+               <!-- <label class="form-label" for="rubro">Selecciona un rubro:</label>
                 <select class="form-control me-2" id="rubro" name="rubro" >
                     <option value="">Seleccione un rubro</option>
                     <option th:each="rubro : ${T(com.grupob.ServiMarket.enums.Rubro).values()}"
@@ -44,7 +39,7 @@
                 <input class="form-control mb-4" type="file" id="archivo"
                        name="archivos" accept="image/*" multiple required onchange="mostrarVistaPrevia(this);">
                 <div id="imagenes-previas"></div>
-                <br>
+                <br>-->
             <button class="w-100 btn btn-success btn-lg mb-4" type="submit" >Publicar</button>
             </form>
     </div>
