@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head th:replace="fragments/layout :: _head"></head>
-
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Project Detail</title>
+</head>
 
 <body>
-<header th:replace="fragments/layout :: _header"></header>
 
+<!-- Aquí comienza el contenido del cuerpo -->
 <main class="main-gris">
-    <div th:replace="fragments/layout :: nav-server"></div>
+<section layout:fragment="body">
+
     <div class="container">
         <div class="d-flex fles-row justify-content-between align-items-center">
             <h1>Datos del Proyecto</h1>
@@ -18,16 +20,9 @@
         <p>NOMBRE: <span th:text="${proyecto.nombre}"></span></p>
         <p>TIPO: <span th:text="${proyecto.visibilidad}"></span></p>
         <p>DESCRIPCIÓN: <span th:text="${proyecto.descripcion}"></span></p>
-        <!--<img id="fotos" th:src="${pub.urlImagen}" alt="Fotos de la publicación">
-        <script src="../static/js/Vista_Formulario_Servicios.js"></script>
-
-        <a class="btn btn-primary" sec:authorize="hasAnyRole('ROLE_ADMIN')"
-           th:href="@{/proyecto/{pId}/delete(pId=${proyecto.id})}">Delete</a>
-        <a class="btn btn-primary" th:href="@{/question/{pubId}/new(pubId=${pub.id})}">PREGUNTAR</a>-->
     </div>
-</main>
-<footer th:replace="fragments/layout :: _footer"></footer>
-<div th:replace="fragments/layout :: _script"></div>
+</section>
+    </main>
 </body>
 
 </html>

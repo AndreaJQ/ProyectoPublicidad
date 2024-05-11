@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head th:replace="fragments/layout :: _head"></head>
-
-
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Register</title>
+</head>
 <body>
-<header th:replace="fragments/layout :: _header"></header>
+<section layout:fragment="body">
 
 <main>
-
     <div class="d-flex flex-row-reverse a1 ">
         <div class="col-md-4 panel1">
             <div class="container p-5" id="panel">
@@ -91,17 +91,12 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                     data-dismiss="modal">Cerrar</button>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </label>
                     </div>
-
-
-
-
 
                     <label class="form-label" for="role">Seleccione su perfil:</label>
                     <select class="form-control mb-4" id="role" th:field="*{role}" >
@@ -118,9 +113,6 @@
         </div>
     </div>
 </main>
-
-<footer th:replace="fragments/layout :: _footer"></footer>
-
 
 
 <script th:inline="javascript">
@@ -139,7 +131,7 @@
                 }
             }
         </script>
-<div th:replace="fragments/layout :: _script"></div>
+</section>
 </body>
 
 </html>
