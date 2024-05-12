@@ -41,10 +41,10 @@ public class ProjectService {
 
     //------------------------CREATE--------------------------
    @Transactional
-    public void create (Proyecto proyecto,
-                        Long userId,
-                        MultipartFile archivo,
-                        List<Long> idColabs
+    public Proyecto create (Proyecto proyecto,
+                            Long userId,
+                            MultipartFile archivo,
+                            List<Long> idColabs
                         ) throws MyException, IOException {
         //validate();
        UserEntity user = new UserEntity();
@@ -65,7 +65,8 @@ public class ProjectService {
 
            pRepository.save(proyecto);
        }
-    }
+       return proyecto;
+   }
 //^evita escribir tantas lineas
     /*@Transactional
     public void guardar(MultipartFile archivo,
@@ -113,6 +114,7 @@ public class ProjectService {
                                    String nombre,
                                    String descripcion,
                                    Visibilidad visibilidad,MultipartFile archivos,
+                                   Date fechaLimite,
                                    List<Long> idColabs) throws MyException, IOException {
         Optional<Proyecto> optionalProyecto= projectRepository.findById(id);
         if (optionalProyecto.isPresent()) {
@@ -121,11 +123,10 @@ public class ProjectService {
             updateProject.setDescripcion(descripcion);
             updateProject.setFecha(updateProject.getFecha());
             updateProject.setVisibilidad(visibilidad);
-           // updateProject.setFechaLimite(fechaLimite);
-            List<UserEntity> colaboradores = new ArrayList<>();
-            colaboradores.addAll(userService.getAllById(idColabs));
+            updateProject.setFechaLimite(fechaLimite);
+            updateProject.getColaborador().clear();// Eliminar todos los colaboradores actuales
+            List<UserEntity> colaboradores = userService.getAllById(idColabs);// Agregar los nuevos colaboradores
             updateProject.getColaborador().addAll(colaboradores);
-
             if (archivos != null && !archivos.isEmpty()) {
                 ArchivoAdjunto nuevoArchivo = new ArchivoAdjunto();
                 fileRepository.save(nuevoArchivo);
@@ -137,7 +138,6 @@ public class ProjectService {
             return null;
         }
     }
-
 
     //------------------------DELETE--------------------------
     @Transactional
