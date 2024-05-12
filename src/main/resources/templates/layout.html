@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,41 +40,41 @@
     </div>
   </nav>
   <div class="linea-azul"></div>
-<nav sec:authorized="isAuthenticated()">
-  <div  class="navbar-actions mb-5">
-    <div class="nav-item1">
-      <a th:href="@{/proyecto}" sec:authorize="hasAnyRole('ROLE_PROVIDER')" class="nav-link link-custom"
-         role="button">Publicar Servicio</a>
+  <nav>
+    <div  class="navbar-actions mb-5">
+      <div class="nav-item1">
+      <a th:href="@{/proyecto}" sec:authorize="hasRole('ROLE_USERAGENT')"  class="nav-link link-custom"
+         role="button">CREAR PROYECTO</a>
     </div>
     <div class="nav-item1">
-      <a th:href="@{/publicationsbyUser}" sec:authorize="hasAnyRole('ROLE_PROVIDER')"
-         class="nav-link link-custom" role="button">Servicios Publicados
+      <a th:href="@{/publicationsbyUser}"  sec:authorize="hasAuthority('ADMIN')"
+         class="nav-link link-custom" role="button">Proyectos tuyos
       </a>
     </div>
 
     <div class="nav-item1">
-      <a th:href="@{/admin/users}" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="nav-link link-custom"
+      <a th:href="@{/admin/users}"  class="nav-link link-custom"  sec:authorize="hasAuthority('ADMIN')"
          role="button">Listar Usuarios</a>
     </div>
     <div class="nav-item1">
-      <a th:href="@{/admin/publications}" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="nav-link link-custom"
+      <a th:href="@{/admin/projectlist}" sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link link-custom"
          role="button">Listar Proyectos</a>
     </div>
     <div class="nav-item1">
-      <a th:href="@{/admin/solicitudes}" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="nav-link link-custom"
-         role="button" > </i>Listar Solicitudes
+      <a th:href="@{/admin/solicitudes}" sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link link-custom"
+         role="button" > </i>Listar Tareas
         <i th:each="solicitud: ${solicitud}"
            th:if="${solicitud.completo == false}"
            class="bi bi-bell-fill" style=" color: rgb(255, 210, 48); opacity: 1;" ></i>
       </a>
     </div>
     <div class="nav-item1">
-      <a th:href="@{/admin/califications}" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="nav-link link-custom"
+      <a th:href="@{/admin/califications}" sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link link-custom"
          role="button">Listar Comentarios
       </a>
     </div>
     <div class="nav-item1">
-      <a th:href="@{/publist}" sec:authorize="hasAnyRole('ROLE_USER')" class="nav-link link-custom"
+      <a th:href="@{/tarealista}" sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link link-custom"
          role="button">Visualizar Tareas</a>
     </div>
     <div class="nav-item1">

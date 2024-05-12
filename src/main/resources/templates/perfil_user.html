@@ -24,6 +24,12 @@
                     <div>
                         <a th:href="@{/user/edituser/{userId} (userId = ${user.id})}" class="btn btn-success" role="button">Editar</a>
                     </div>
+                    <div>
+                        <a th:href="@{/proyecto}" class="btn btn-success" role="button">Crear Proyecto</a>
+                    </div>
+                    <div>
+                        <a th:href="@{/projectlist}" class="btn btn-success" role="button">Listar Proyectos</a>
+                    </div>
                 </div>
                 <hr>
                 <p><strong>Nombre: </strong><span th:text="${session.usuariosession.name}"></span></p>

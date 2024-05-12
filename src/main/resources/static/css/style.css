@@ -42,7 +42,7 @@ header.abajo{
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
-    text-decoration: none;
+    /*text-decoration: none;*/
 }
 .nav-item1{
     flex: 1 1 auto;
