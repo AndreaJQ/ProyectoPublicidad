@@ -33,7 +33,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //.antMatchers("/admin/*").hasRole("ADMIN")
-               // .antMatchers("/proyecto/*").hasRole("AGENTE")
+                //.antMatchers("/proyecto/*").hasRole("ADMIN")
+                .antMatchers("/*").authenticated()
                 .antMatchers("/css/", "/js/", "/img/", "/**")
                 .permitAll()
                 .and().formLogin()
@@ -41,7 +42,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/logincheck")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/projectlist")
+                .defaultSuccessUrl("/user/perfil")
                 .permitAll()
                 .and().logout()
                 .logoutUrl("/logout")
