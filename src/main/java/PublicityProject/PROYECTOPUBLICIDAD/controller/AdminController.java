@@ -70,7 +70,7 @@ public class AdminController {
             return "redirect:/admin/users";
         } catch (Exception ex){
             model.addAttribute("error", "No se puede eliminar el Usuario porque se encuentra vinculado a una publicación o comentario");
-            return "error-deleteUser";
+            return "error";
         }
 
     }

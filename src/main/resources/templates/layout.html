@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -57,7 +57,7 @@
          role="button">Listar Usuarios</a>
     </div>
     <div class="nav-item1">
-      <a th:href="@{/admin/projectlist}" sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link link-custom"
+      <a th:href="@{/admin/projectlist}" sec:authorize="hasRole('ADMIN')" class="nav-link link-custom"
          role="button">Listar Proyectos</a>
     </div>
     <div class="nav-item1">

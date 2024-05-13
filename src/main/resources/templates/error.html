@@ -1,0 +1,26 @@
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <title>Tasks List</title>
+</head>
+
+<body>
+<section layout:fragment="body">
+  <main class="main-gris">
+  <div class="container">
+    <div class="d-flex fles-row justify-content-between align-items-center">
+      <h1>ERROR</h1>
+      <br>
+      <br>
+      <a class="btn btn-outline-success" th:href="@{/admin/users}" type="button">Volver</a>
+    </div>
+
+    <p><span th:each="error : ${error}"th:text="${error}"></span></p>
+
+  </div>
+  </main>
+</section>
+</body>
+</html>
