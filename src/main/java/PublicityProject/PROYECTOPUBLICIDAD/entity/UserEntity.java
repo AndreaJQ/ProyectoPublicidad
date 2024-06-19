@@ -22,7 +22,7 @@ public class UserEntity {
     private String contact;
     private String address; //telefono
     @OneToOne
-    private Image image;
+    private Imagen image;
 
     private boolean status;//anotacion para dar de baja
     @Enumerated(EnumType.STRING)

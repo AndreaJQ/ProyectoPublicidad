@@ -17,4 +17,7 @@ public class ArchivoAdjunto {
     @Basic(fetch = FetchType.LAZY)
     @Column(columnDefinition = "LONGBLOB")
     private byte[] contenido;
+
+
+
 }

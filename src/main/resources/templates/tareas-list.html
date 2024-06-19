@@ -1,0 +1,121 @@
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <title>Lista de Tarea</title>
+</head>
+
+
+<body>
+  <section layout:fragment="body">
+    <main class="main-gris">
+  <div class="container">
+    <div class="d-flex fles-row justify-content-between align-items-center">
+      <h1>Lista de Proyectos</h1>
+      <a class="btn btn-outline-success" th:href="@{/user/perfil}" type="button">Volver</a>
+    </div>
+
+  <table class="table">
+    <thead>
+        <tr>
+          <th onclick="sortTable(0)" class="desc">ID</th>
+          <th onclick="sortTable(1)" class="desc">NOMBRE DE LA TAREA</th>
+          <th onclick="sortTable(3)" class="desc">ESTADO DE LA TAREA</th>
+          <th onclick="sortTable(2)" class="desc">PROYECTO</th>
+          <th onclick="sortTable(2)" class="desc">AGENTE</th>
+          <th onclick="sortTable(5)" class="desc ">COMENTARIO</th>
+          </tr>
+      </thead>
+      <tbody th:each="tarea : ${tarea}">
+
+      <th scope="row" th:text="${tarea.id}"></th>
+      <td th:text="${tarea.nombre}"></td>
+      <td th:text="${tarea.estadoTarea}"></td>
+      <td th:text="${tarea.Proyecto}"></td>
+      <td th:text="${tarea.UserEntity}"></td>
+      <td th:text="${tarea.Comment}"></td>
+      <td>
+        <ul>
+          <li th:each="UserEntity : ${tarea.UserEntity}" th:text="${UserEntity.nombre}"></li>
+        </ul>
+      </td>
+      >
+       </tbody>
+    </table>
+  </div>
+    </main>
+  </section>
+
+
+<script>
+    // Variables para mantener el estado de ordenamiento
+    const sortStates = [null, null, null, null, null, null, null, null, null, null];
+
+    // Función para obtener el contenido de texto de un elemento (ignorando etiquetas HTML)
+    function getTextContent(element) {
+      return element.textContent || element.innerText;
+    }
+
+    // Función para cambiar el estado de ordenamiento
+    function toggleSortState(columnIndex) {
+      if (sortStates[columnIndex] === "asc") {
+        sortStates[columnIndex] = "desc";
+      } else {
+        sortStates[columnIndex] = "asc";
+      }
+    }
+
+    // Función para obtener el estado de ordenamiento
+    function getSortState(columnIndex) {
+      return sortStates[columnIndex];
+    }
+
+    // Función para ordenar la tabla por la columna indicada
+    function sortTable(columnIndex) {
+      let table, rows, switching, i, x, y, shouldSwitch;
+      table = document.querySelector(".table");  // Cambia el selector para obtener la tabla
+      switching = true;
+
+      while (switching) {
+        switching = false;
+        rows = table.rows;
+
+        for (i = 1; i < (rows.length - 1); i++) {
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[columnIndex];
+          y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+
+          // Obtén el contenido de texto de las celdas (ignorando enlaces)
+          const xText = getTextContent(x);
+          const yText = getTextContent(y);
+
+          // Compara los valores según el tipo de columna (numérico o alfanumérico)
+          if (columnIndex === 0 || columnIndex === 3 || columnIndex === 5) {
+            if ((getSortState(columnIndex) === "asc" && Number(xText) > Number(yText)) ||
+                (getSortState(columnIndex) === "desc" && Number(xText) < Number(yText))) {
+              shouldSwitch = true;
+              break;
+            }
+          } else {
+            if ((getSortState(columnIndex) === "asc" && xText.toLowerCase() > yText.toLowerCase()) ||
+                (getSortState(columnIndex) === "desc" && xText.toLowerCase() < yText.toLowerCase())) {
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+
+      // Cambia el estado de ordenamiento después de ordenar la tabla
+      toggleSortState(columnIndex);
+    }
+  </script>
+
+</body>
+
+</html>

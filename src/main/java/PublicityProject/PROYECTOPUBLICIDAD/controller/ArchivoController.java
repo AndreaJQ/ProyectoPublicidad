@@ -14,28 +14,28 @@ import org.springframework.http.HttpStatus;
 @Controller
 @RequestMapping("/archivo")
 public class ArchivoController {
-    @Autowired
-    ArchivoService archivoService;
- @GetMapping("/ListaArchivos")
- public List ListaArchivos(){
-    return this.archivoService.ListaDeArchivos();
- }
- @PostMapping("/crearArchivo")
- @ResponseStatus(HttpStatus.CREATED)
- public Archivo CreateFile(@RequestBody Archivo request) throws MyException {
-return this.archivoService.CreateFile(request.getNombre());
- }
- @PutMapping("/escribirArchivo")
- public Archivo WriteFile(@RequestBody Archivo request) throws MyException {
-     return this.archivoService.WriteFile(request.getId(),request.getNombre(), request.getContenido());
+ @Autowired
+ private ArchivoService archivoService;
 
+ @GetMapping(value = "/ListaArchivos")
+ public List ListaArchivos() {
+  return this.archivoService.ListaDeArchivos();
  }
- @GetMapping("/leer")
- public String readFile(@RequestBody Archivo request) throws MyException {
-return this.archivoService.readFile(request.getNombre(), request.getContenido());
+
+ @PostMapping(value = "/crearArchivo")
+ @ResponseStatus(HttpStatus.CREATED)
+ public String CreateFile(@RequestBody Archivo request) throws MyException {
+  this.archivoService.CreateFile(request);
+  return "Archivo creado";}
+
+ @PutMapping(value = "/escribirArchivo/{id}")
+ public String WriteFile (@PathVariable Long id,@RequestBody Archivo request) throws  MyException {
+  this.archivoService.WriteFile(id,request);
+  return "el archivo fue se escribio";
  }
- @DeleteMapping("/borrarArchivo")
- public String deleteFile(@RequestBody Archivo request) throws MyException {
- return this.archivoService.DeleteFile(request.getId());
- }
+
+ @DeleteMapping(value = "/borrarArchivo/{id}")
+ public String deleteFile (@PathVariable Long id) throws MyException {
+  this.archivoService.DeleteFile(id);
+return "el archivo fue eliminado"; }
 }

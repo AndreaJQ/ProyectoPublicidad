@@ -2,9 +2,8 @@ package PublicityProject.PROYECTOPUBLICIDAD.service.impl;
 
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Proyecto;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Tarea;
-import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
-import PublicityProject.PROYECTOPUBLICIDAD.enumeration.estadoTarea;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
+import PublicityProject.PROYECTOPUBLICIDAD.repository.ProjectRepository;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.TareaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,72 +17,75 @@ import java.util.Optional;
 public class ServiceTarea {
     @Autowired
     protected TareaRepository tareareposirio;
+    @Autowired
+    protected ProjectRepository proyectoRepositorio;
     @Transactional
-    public Tarea CreateTarea(String nombre, estadoTarea estado, Proyecto proyecto,UserEntity agente, Boolean baja)
-    throws MyException
-    {
-        Validacion(nombre, estado, proyecto, agente, baja);
-    Tarea tarea=new Tarea();
-    tarea.setNombre(nombre);
-    tarea.setProyecto(proyecto);
-    tarea.setAgente(agente);
-    tarea.setBaja(baja);
-    return tareareposirio.save(tarea);
+    public Tarea CreateTarea(Tarea request)
+            throws MyException {
+
+        Validacion(request);
+        Tarea tarea = new Tarea();
+        tarea.setNombre(request.getNombre());
+        tarea.setEstadoTarea(request.getEstadoTarea());
+        tarea.setProyectos(request.getProyectos());
+        tarea.setAgente(request.getAgente());
+        tarea.setComentario(request.getComentario());
+        tareareposirio.save(tarea);
+
+        return tarea;
     }
-    public void Validacion(String nombre,
-                           estadoTarea estado,
-                           Proyecto proyecto,
-                           UserEntity agente,
-                           Boolean baja)
-    throws MyException
-    {
-        if (nombre.isEmpty()|| nombre==null){
+
+    public void Validacion(Tarea request)
+            throws MyException {
+        if (request.getNombre().isEmpty() || request.getNombre() == null) {
             throw new MyException("el nombre esta vacio o es nulo.");
         }
-        if (estado==null){
+        if (request.getEstadoTarea() == null) {
             throw new MyException("el estado no puede ser nulo");
         }
-        if (proyecto==null){
-            throw new MyException("el proyecto no puede ser nulo");
+
+        if (request.getProyectos() == null) {
+            throw new MyException("el proyecto esta vacio o es nulo");
         }
-        if (agente == null) {
+        if (request.getAgente() == null){
             throw new MyException("el agente esta vacio o es nulo");
         }
-        if (baja == null || baja==false) {
-            throw new MyException("la baja tiene que ser verdadera o no puede ser nula");
+        if (request.getComentario() == null){
+            throw new MyException("el agente esta vacio o es nulo");
         }
+
     }
+
     @Transactional
-    public Tarea UpdateTarea(String idTarea, Tarea request)throws MyException{
+    public String UpdateTarea(Long idTarea, Tarea request) throws MyException {
+        Validacion(request);
+        Optional<Tarea> existe = tareareposirio.findById(idTarea);
+        if (existe.isPresent()) {
+            Tarea tarea = tareareposirio.getById(idTarea);
+            tarea.setNombre(request.getNombre());
+            tarea.setEstadoTarea(request.getEstadoTarea());
+            tarea.setProyectos(request.getProyectos());
+            tarea.setAgente(request.getAgente());
+            tarea.setComentario(request.getComentario());
+            tareareposirio.save(tarea);
+            return "la tarea ha sido modificada";
+        } else {
+            throw new MyException("la tarea no existe");}
 
-        Optional<Tarea> tareas= tareareposirio.findById(idTarea);
-        if (tareas.isPresent() ) {
-        request.setNombre(request.getNombre());
-        request.setEstadoTarea(request.getEstadoTarea());
-        request.setProyecto(request.getProyecto());
-        request.setAgente(request.getAgente());
-        request.setBaja(request.getBaja());
-        tareareposirio.save(request);
-        }else {throw new MyException("la tarea esta vacia");
-        }
-        return request;
 
     }
-    public List tareasList(){
-        List list=tareareposirio.findAll();
+    public List tareasList () {
+        List list = tareareposirio.findAll();
         return list;
     }
     @Transactional
-    public Boolean deleteTarea(String idtarea)throws MyException{
-        Optional<Tarea>tarea=tareareposirio.findById(idtarea);
-        if (tarea.isPresent() ) {
+    public Boolean deleteTarea (Long idtarea)throws MyException {
+        Optional<Tarea> tarea = tareareposirio.findById(idtarea);
+        if (tarea.isPresent()) {
             this.tareareposirio.deleteById(idtarea);
             return true;
-        }else{
+        } else {
             throw new MyException("el id no corresponde a una tarea existente");
         }
-    }
-    public Optional<Tarea> getById(String idTarea){
-        return this.tareareposirio.findById(idTarea);
     }
 }

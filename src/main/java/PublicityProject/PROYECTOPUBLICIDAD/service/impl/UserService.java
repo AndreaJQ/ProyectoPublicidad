@@ -1,24 +1,16 @@
 package PublicityProject.PROYECTOPUBLICIDAD.service.impl;
 
-import PublicityProject.PROYECTOPUBLICIDAD.entity.Image;
+import PublicityProject.PROYECTOPUBLICIDAD.entity.Imagen;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
 import PublicityProject.PROYECTOPUBLICIDAD.enumeration.Role;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
 import PublicityProject.PROYECTOPUBLICIDAD.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +22,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ImageService imageService;
+    private ImagenService imageService;
 
     //--------------------CREATE--------------------------
     @Transactional
     public void create(UserEntity us, String password, String password2, MultipartFile archivo) throws MyException, IOException {
         //validate(us,password,password2,archivo);
-        Image image;
+        Imagen image;
         if (archivo != null && !archivo.isEmpty()) {
             image = imageService.createImagen(archivo);
         } else {
@@ -85,7 +77,7 @@ public class UserService {
             if (user.getImage() != null) {
                 idImage = user.getImage().getId();
             }
-            Image image;
+            Imagen image;
             if (archivo != null && !archivo.isEmpty()) {
                 image = imageService.UpdateImage(archivo, idImage);
             } else {

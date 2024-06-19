@@ -1,52 +1,50 @@
 package PublicityProject.PROYECTOPUBLICIDAD.controller;
 
-import PublicityProject.PROYECTOPUBLICIDAD.entity.Proyecto;
+
 import PublicityProject.PROYECTOPUBLICIDAD.entity.Tarea;
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
-import PublicityProject.PROYECTOPUBLICIDAD.enumeration.estadoTarea;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
+import PublicityProject.PROYECTOPUBLICIDAD.repository.TareaRepository;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ServiceTarea;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/tarea")
 public class TareaController {
     @Autowired
     private ServiceTarea serviciotarea;
-
+    @Autowired
+    private TareaRepository tareaRepository;
+    @Autowired
+    private UserEntity usuario;
     @GetMapping("/Tareas")
-    public List ListaTareas(){
-        return this.serviciotarea.tareasList();
+    public String ListaTareas(ModelMap modelo){
+         List<Tarea> tareas= serviciotarea.tareasList();
+         modelo.addAttribute("tareas", tareas);
+         return "tareas-list.html";
     }
     @PostMapping("/createTarea")
-    public Tarea crearTarea(@RequestBody String nombre,
-                            @RequestBody estadoTarea estado,
-                            @RequestBody Proyecto proyecto,
-                            @RequestBody UserEntity agente,
-                            @RequestBody Boolean baja )throws MyException{
+    public String crearTarea(@RequestBody Tarea request )throws MyException{
             Tarea tarea=new Tarea();
-        tarea=this.serviciotarea.CreateTarea(nombre,estado,proyecto,agente,baja);
-        return tarea;
+        tarea=this.serviciotarea.CreateTarea(request);
+        return "la tarea se ha creado";
     }
     @PutMapping("/update")
-    public Tarea UpDateTarea(@RequestBody Tarea request, @PathVariable("idTarea") String idTarea)throws MyException{
-
-        return serviciotarea.UpdateTarea(idTarea, request);}
-
+    public String UpDateTarea(@RequestBody Tarea request, @PathVariable("idTarea") Long idTarea)throws MyException{
+        serviciotarea.UpdateTarea(idTarea, request);
+    return "la tarea se ha actualizado";}
     @GetMapping(path="/{idTarea}")
-    public Optional<Tarea> getTareaById(@PathVariable("idtarea") String  idTarea){
-    return this.serviciotarea.getById(idTarea);
+    public Tarea getTareaById(@PathVariable("idtarea") Long  idTarea){
+    return this.tareaRepository.getById(idTarea);
     }
     @DeleteMapping(path = "/{idTarea}")
-    public Boolean deleteTarea(@PathVariable("idTarea")String idTarea) throws MyException {
-       Boolean ok=this.serviciotarea.deleteTarea(idTarea);
-        if (ok == true) {
-            return true;
-        }else {return false;}
-           }
+    public String deleteTarea(@PathVariable("idTarea")Long idTarea) throws MyException {
+       this.serviciotarea.deleteTarea(idTarea);
+        return "la tarea ha sido eliminada";}
 
 }

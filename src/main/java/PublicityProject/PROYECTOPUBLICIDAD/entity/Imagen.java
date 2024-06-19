@@ -3,25 +3,29 @@ package PublicityProject.PROYECTOPUBLICIDAD.entity;
 
 import lombok.Data;
 
-
 import javax.persistence.*;
 
 @Data
+@Table(name = "imagen")
 @Entity
-public class Archivo {
 
+public class Imagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String nombre;
+    @Column
     private String tipo;
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    private String contenido;
-    public Archivo() {
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] contenido;
+
+    public Imagen() {
     }
 
-    public Archivo(Long id, String nombre, String tipo, String contenido) {
+    public Imagen(Long id, String nombre, String tipo, byte[] contenido) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -52,11 +56,11 @@ public class Archivo {
         this.tipo = tipo;
     }
 
-    public String getContenido() {
+    public byte[] getContenido() {
         return contenido;
     }
 
-    public void setContenido(String contenido) {
+    public void setContenido(byte[] contenido) {
         this.contenido = contenido;
     }
 }

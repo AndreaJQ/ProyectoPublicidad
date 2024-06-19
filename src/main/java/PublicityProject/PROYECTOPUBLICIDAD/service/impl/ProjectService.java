@@ -25,7 +25,7 @@ public class ProjectService {
     @Autowired
     private UserService userService;
     @Autowired
-    private ImageService imageService;
+    private ImagenService imageService;
     @Autowired
     private UserRepository userRepository;
     @Autowired

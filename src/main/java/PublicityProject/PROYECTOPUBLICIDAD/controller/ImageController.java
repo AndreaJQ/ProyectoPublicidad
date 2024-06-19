@@ -1,10 +1,10 @@
 package PublicityProject.PROYECTOPUBLICIDAD.controller;
 
-import PublicityProject.PROYECTOPUBLICIDAD.entity.Image;
+import PublicityProject.PROYECTOPUBLICIDAD.entity.Imagen;
 
 import PublicityProject.PROYECTOPUBLICIDAD.entity.UserEntity;
 import PublicityProject.PROYECTOPUBLICIDAD.exceptions.MyException;
-import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ImageService;
+import PublicityProject.PROYECTOPUBLICIDAD.service.impl.ImagenService;
 import PublicityProject.PROYECTOPUBLICIDAD.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,40 +23,33 @@ import java.util.List;
 @RequestMapping("/image")
 public class ImageController {
 
-    @Autowired
-    private ImageService imageService;
+
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ImagenService imageService;
+
+
     @PostMapping("/create")
-    public Image createImage(@RequestParam("archivo") MultipartFile archivo) throws MyException, IOException {
-        return imageService.createImagen(archivo);
+    public String createImage(@RequestParam("Imagen[]") MultipartFile request) throws MyException, IOException {
+        imageService.createImagen(request);
+        return "la imagen ha sido creada";
     }
 
-    @GetMapping("/list")
-    public List<Image> listImages() {
+    @GetMapping(value = "/listaImagenes")
+    public List<Imagen> listImages() {
         return imageService.ImagenList();
     }
 
-   /*REVISAR PORQUE NO CARGABA IMAGEN
-   @GetMapping("/load/{id}")
-    public ResponseEntity<byte[]> loadImage(@PathVariable String id) throws MyException {
-        Image image = imageService.getImageById(id);
-        if (image != null) {
-            return ResponseEntity.ok()
-                    .header("Content-Type", image.getTipo())
-                    .body(image.getContenido());
-        } else {
-            throw new MyException("La imagen con el ID proporcionado no existe.");
-        }
-    }*/
 
-    //SI CARGA IMAGEN
-    @GetMapping("/carga/{id}")
+
+
+   /* @GetMapping("/carga/{id}")
     public ResponseEntity<byte[]> imagenUsuario (@PathVariable Long id){
         UserEntity userEntity = userService.getUserById(id);
 
-        byte[] image= userEntity.getImage().getContenido();
+       byte[] image= userEntity.getImagen().getContenido();
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -64,17 +57,20 @@ public class ImageController {
 
 
 
-        return new ResponseEntity<>(image,headers, HttpStatus.OK);
+        return new ResponseEntity<>(Imagen,headers, HttpStatus.OK);
+    }*/
+
+
+    @PutMapping(value = "/update/{id}")
+    public String  updateImage(@PathVariable Long id, @RequestParam("Imagen[]") MultipartFile archivo) throws MyException, IOException {
+        imageService.UpdateImage(archivo, id);
+        return "La imagen ha sido actualizada";
     }
 
-
-    @PutMapping("/update/{id}")
-    public Image updateImage(@PathVariable String id, @RequestParam("archivo") MultipartFile archivo) throws MyException, IOException {
-        return imageService.UpdateImage(archivo, id);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteImage(@PathVariable String id) throws MyException {
+    @DeleteMapping(value = "/delete/{id}")
+    public String deleteImage(@PathVariable Long id) throws MyException {
         imageService.DeleteImage(id);
+        return "la imagen ha sido eliminada";
     }
+
 }
