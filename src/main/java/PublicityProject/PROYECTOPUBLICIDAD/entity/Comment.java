@@ -16,10 +16,8 @@ import javax.persistence.*;
 @Entity
 public class Comment {
     @Id
-    @GeneratedValue(generator = "uuid")
-
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(columnDefinition = "LONGTEXT")
     private String contenido;
     @ManyToOne
@@ -27,11 +25,21 @@ public class Comment {
     @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date fecha;
 
-    public String getId() {
+    public Comment() {
+    }
+
+    public Comment(Long id, String contenido, UserEntity usuario, Date fecha) {
+        this.id = id;
+        this.contenido = contenido;
+        this.usuario = usuario;
+        this.fecha = fecha;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
